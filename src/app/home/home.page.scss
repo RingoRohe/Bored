@@ -25,3 +25,43 @@
 #container a {
   text-decoration: none;
 }
+
+ion-content {
+  .wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  }
+
+  ion-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .activity {
+    flex: 1;
+    ion-card-content {
+      font-size: 1.5em;
+    }
+  }
+
+  .bored-button {
+    height: auto;
+    font-weight: bold;
+
+    ion-card-content {
+      font-size: 1.5em;
+    }
+
+    &.im-bored-button {
+      flex: 1;
+    }
+
+    &.still-bored-button {
+      margin-top: 0;
+    }
+  }
+}
