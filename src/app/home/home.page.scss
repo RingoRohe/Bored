@@ -59,6 +59,12 @@ ion-content {
 
     &.activity {
       flex: 1;
+      transition: all 200ms;
+
+      &.hidden {
+        transform: scale(0) rotate(360deg);
+      }
+
       ion-card-content {
         font-size: 1.5em;
       }

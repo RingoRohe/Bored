@@ -1,6 +1,6 @@
 <ion-content [fullscreen]="true">
   <div class="wrapper">
-    <ion-card *ngIf="currentActivity" class="activity">
+    <ion-card *ngIf="currentActivity" class="activity" [ngClass]="{'hidden': isLoading}">
       <div class="ion-card-content-wrapper">
         <ion-card-content class="ion-text-center ion-margin">
           {{currentActivity.activity}}
@@ -20,7 +20,7 @@
           </ion-col>
           <ion-col class="ion-text-center">
             <ion-icon name="cash-outline"></ion-icon>
-            <div>{{currentActivity.price}}</div>
+            <div>{{price}}</div>
           </ion-col>
         </ion-row>
       </ion-footer>

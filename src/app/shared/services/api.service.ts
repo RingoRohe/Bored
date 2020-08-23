@@ -3,12 +3,13 @@ import { AlertController } from '@ionic/angular';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { async } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private serviceUrl: string = 'http://www.boredapi.com/api/activity';
+  private serviceUrl: string = 'https://www.boredapi.com/api/activity';
   private params: object = {
     participants: null,
     price: null
@@ -36,11 +37,12 @@ export class ApiService {
       // Server-side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    this.presentAlert(errorMessage);
+    // TODO: "this.presentAlert is not a Function"
+    // this.presentAlert(errorMessage);
     return throwError(errorMessage);
   }
 
-  async presentAlert(message) {
+  async presentAlert(message: string) {
     const alert = await this.alertController.create({
       header: 'Error',
       message: message,

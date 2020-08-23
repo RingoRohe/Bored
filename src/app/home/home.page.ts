@@ -12,7 +12,8 @@ import { takeUntil } from 'rxjs/operators';
 export class HomePage implements OnInit, OnDestroy {
   currentActivity: Activity = null;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  currentActivityType: ActivityType = {text: null, icon: null};
+  currentActivityType: ActivityType = { text: null, icon: null };
+  isLoading: boolean = false;
 
   constructor(private api: ApiService) { }
 
@@ -25,10 +26,12 @@ export class HomePage implements OnInit, OnDestroy {
   }
   
   loadActivity() {
+    this.isLoading = true;
     this.api.request().pipe(takeUntil(this.destroy$)).subscribe(data => {
-      console.log(data);
       this.currentActivity = data;
       this.setActivityType();
+      this.isLoading = false;
+      console.log(this.currentActivity);0
     });
   }
 
@@ -66,6 +69,33 @@ export class HomePage implements OnInit, OnDestroy {
     }
 
     console.log(this.currentActivityType);
+  }
+
+  get price(): string {
+    if (this.currentActivity.price === 0) {
+      return 'free';
+    }
+    if (this.currentActivity.price < 0.1) {
+      return 'almost free';
+    }
+    if (this.currentActivity.price < 0.3) {
+      return 'cheap';
+    }
+    if (this.currentActivity.price < 0.5) {
+      return 'affordable';
+    }
+    if (this.currentActivity.price < 0.6) {
+      return 'okay';
+    }
+    if (this.currentActivity.price < 0.7) {
+      return 'pricey';
+    }
+    if (this.currentActivity.price <= 0.9) {
+      return 'expensive';
+    }
+    if (this.currentActivity.price > 0.9) {
+      return 'luxury';
+    }
   }
 
 }
