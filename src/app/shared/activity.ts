@@ -1,4 +1,4 @@
-enum Type {
+export enum Type {
     EDUCATION = "education",
     RECREATIONAL = "recreational",
     SOCIAL = "social",
@@ -18,4 +18,9 @@ export interface Activity {
     link: string,
     key: string,
     accessibility: number
+}
+
+export interface ActivityType {
+    text: string,
+    icon: string
 }

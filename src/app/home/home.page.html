@@ -1,16 +1,37 @@
 <ion-content [fullscreen]="true">
   <div class="wrapper">
-  <ion-card *ngIf="currentActivity" class="activity">
-    <ion-card-content class="ion-text-center ion-margin">
-      {{currentActivity.activity}}
-    </ion-card-content>
-  </ion-card>
+    <ion-card *ngIf="currentActivity" class="activity">
+      <div class="ion-card-content-wrapper">
+        <ion-card-content class="ion-text-center ion-margin">
+          {{currentActivity.activity}}
+        </ion-card-content>
+        <ion-button *ngIf="currentActivity.link" href="{{currentActivity.link}}" target="_blank">more...<ion-icon slot="end" name="log-out-outline"></ion-icon></ion-button>
+      </div>
 
-  <ion-card *ngIf="currentActivity" button="true" color="secondary" class="bored-button still-bored-button" (click)="loadActivity()">
-    <ion-card-content class="ion-text-center ion-text-uppercase">still bored</ion-card-content>
-  </ion-card>
-
-  <ion-card *ngIf="!currentActivity" button="true" color="secondary" class="bored-button im-bored-button" (click)="loadActivity()">
-    <ion-card-content class="ion-text-center ion-text-uppercase">I'm bored</ion-card-content>
-  </ion-card></div>
+      <ion-footer>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-icon name="{{currentActivityType.icon}}"></ion-icon>
+            <div>{{currentActivityType.text}}</div>
+          </ion-col>
+          <ion-col class="ion-text-center">
+            <ion-icon name="person"></ion-icon>
+            <div>{{currentActivity.participants}} Participant</div>
+          </ion-col>
+          <ion-col class="ion-text-center">
+            <ion-icon name="cash-outline"></ion-icon>
+            <div>{{currentActivity.price}}</div>
+          </ion-col>
+        </ion-row>
+      </ion-footer>
+    </ion-card>
+    
+    <ion-card *ngIf="currentActivity" button="true" color="secondary" class="bored-button still-bored-button" (click)="loadActivity()">
+      <ion-card-content class="ion-text-center ion-text-uppercase">still bored</ion-card-content>
+    </ion-card>
+    
+    <ion-card *ngIf="!currentActivity" button="true" color="secondary" class="bored-button im-bored-button" (click)="loadActivity()">
+      <ion-card-content class="ion-text-center ion-text-uppercase">I'm bored</ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

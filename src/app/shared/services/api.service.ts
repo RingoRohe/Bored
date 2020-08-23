@@ -10,7 +10,7 @@ import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http'
 export class ApiService {
   private serviceUrl: string = 'http://www.boredapi.com/api/activity';
   private params: object = {
-    participants: 4,
+    participants: null,
     price: null
   }
 

@@ -37,31 +37,48 @@ ion-content {
 
   ion-card {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-  }
+    align-items: end;
 
-  .activity {
-    flex: 1;
-    ion-card-content {
-      font-size: 1.5em;
-    }
-  }
-
-  .bored-button {
-    height: auto;
-    font-weight: bold;
-
-    ion-card-content {
-      font-size: 1.5em;
-    }
-
-    &.im-bored-button {
+    .ion-card-content-wrapper {
+      width: 100%;
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
-    &.still-bored-button {
-      margin-top: 0;
+    ion-footer {
+      ion-icon {
+        width: 2em;
+        height: 2em;
+      }
+    }
+
+    &.activity {
+      flex: 1;
+      ion-card-content {
+        font-size: 1.5em;
+      }
+    }
+
+    &.bored-button {
+      height: auto;
+      font-weight: bold;
+
+      ion-card-content {
+        font-size: 1.5em;
+      }
+
+      &.im-bored-button {
+        flex: 1;
+      }
+
+      &.still-bored-button {
+        margin-top: 0;
+      }
     }
   }
 }
