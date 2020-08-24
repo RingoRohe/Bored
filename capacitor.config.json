@@ -4,10 +4,11 @@
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
-  "linuxAndroidStudioPath": "/opt/android-studio/bin/studio.sh",
+  "linuxAndroidStudioPath": "/opt/android-studio/bin/studio.sh",  
   "plugins": {
     "SplashScreen": {
-      "launchShowDuration": 0
+      "launchShowDuration": 5000,
+      "launchAutoHide": false
     }
   },
   "cordova": {}
