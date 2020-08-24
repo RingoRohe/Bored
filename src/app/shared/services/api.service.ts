@@ -3,26 +3,26 @@ import { AlertController } from '@ionic/angular';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { async } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   private serviceUrl: string = 'https://www.boredapi.com/api/activity';
-  private params: object = {
-    participants: null,
-    price: null
-  }
 
   constructor(private alertController: AlertController, private http: HttpClient) {
   }
 
-  request(): Observable<any> {
+  /**
+   * Sends a GET Request to the bored-API.
+   * @param p An Object of GET Parameters to send with the Request
+   */
+  request(p?: Object): Observable<any> {
+    const params = { ...p };
     let httpParams: HttpParams = new HttpParams();
-    Object.keys(this.params).map(key => {
-      if (this.params[key]) {
-        httpParams = httpParams.set(key, this.params[key]);
+    Object.keys(params).map(key => {
+      if (params[key]) {
+        httpParams = httpParams.set(key, params[key]);
       }
     })
     return this.http.get(this.serviceUrl, {params: httpParams}).pipe(retry(3), catchError(this.handleError));

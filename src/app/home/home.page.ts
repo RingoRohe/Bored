@@ -1,38 +1,64 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ApiService } from '../shared/services/api.service';
-import { Activity, Type, ActivityType } from '../shared/activity';
+import { PopoverController } from "@ionic/angular";
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { ApiService } from '../shared/services/api.service';
+import { Activity, Type, ActivityType } from '../shared/activity';
+
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: "app-home",
+  templateUrl: "home.page.html",
+  styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnInit, OnDestroy {
   currentActivity: Activity = null;
   destroy$: Subject<boolean> = new Subject<boolean>();
   currentActivityType: ActivityType = { text: null, icon: null };
-  isLoading: boolean = false;
+  activityTypeKeys: Object = Object.keys(Type);
 
-  constructor(private api: ApiService) { }
+  isLoading: boolean = false;
+  isFilterActive: boolean = false;
+
+  filterParams: object = {
+    participants: 1,
+    participantsFilterDisabled: true,
+    price: {
+      lower: 0,
+      upper: 1,
+    },
+    type: "SOCIAL",
+    typeFilterDisabled: true,
+  };
+
+  participantsValue: number = 3;
+  priceValues: Object = { lower: 0.2, upper: 1 };
+
+  constructor(
+    public api: ApiService,
+    public modalController: PopoverController
+  ) {}
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  ngOnInit(): void {
-  }
-  
+  ngOnInit(): void {}
+
   loadActivity() {
     this.isLoading = true;
-    this.api.request().pipe(takeUntil(this.destroy$)).subscribe(data => {
-      this.currentActivity = data;
-      this.setActivityType();
-      this.isLoading = false;
-      console.log(this.currentActivity);0
-    });
+    this.isFilterActive = false;
+    this.api
+      .request(this.filterParamsToHttpParams())
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.currentActivity = data;
+        this.setActivityType();
+        this.isLoading = false;
+        // console.log(this.currentActivity);
+        0;
+      });
   }
 
   setActivityType() {
@@ -40,62 +66,85 @@ export class HomePage implements OnInit, OnDestroy {
 
     switch (this.currentActivity.type) {
       case Type.EDUCATION:
-        this.currentActivityType.icon = 'library';
+        this.currentActivityType.icon = "library";
         break;
       case Type.RECREATIONAL:
-        this.currentActivityType.icon = 'bicycle-outline';
+        this.currentActivityType.icon = "bicycle-outline";
         break;
       case Type.SOCIAL:
-        this.currentActivityType.icon = 'chatbubbles-outline';
+        this.currentActivityType.icon = "chatbubbles-outline";
         break;
       case Type.DIY:
-        this.currentActivityType.icon = 'hammer-outline';
+        this.currentActivityType.icon = "hammer-outline";
         break;
       case Type.CHARITY:
-        this.currentActivityType.icon = 'thumbs-up-outline';
+        this.currentActivityType.icon = "thumbs-up-outline";
         break;
       case Type.COOKING:
-        this.currentActivityType.icon = 'fast-food-outline';
+        this.currentActivityType.icon = "fast-food-outline";
         break;
       case Type.RELAXATION:
-        this.currentActivityType.icon = 'bed-outline';
+        this.currentActivityType.icon = "bed-outline";
         break;
       case Type.MUSIC:
-        this.currentActivityType['icon'] = 'musical-notes-outline';
+        this.currentActivityType.icon = "musical-notes-outline";
         break;
       case Type.BUSYWORK:
-        this.currentActivityType['icon'] = 'construct-outline';
+        this.currentActivityType.icon = "construct-outline";
         break;
     }
+  }
 
-    console.log(this.currentActivityType);
+  get activityTypes() {
+    return Type;
   }
 
   get price(): string {
     if (this.currentActivity.price === 0) {
-      return 'free';
+      return "free";
     }
     if (this.currentActivity.price < 0.1) {
-      return 'almost free';
+      return "almost free";
     }
     if (this.currentActivity.price < 0.3) {
-      return 'cheap';
+      return "cheap";
     }
     if (this.currentActivity.price < 0.5) {
-      return 'affordable';
+      return "affordable";
     }
     if (this.currentActivity.price < 0.6) {
-      return 'okay';
+      return "okay";
     }
     if (this.currentActivity.price < 0.7) {
-      return 'pricey';
+      return "pricey";
     }
     if (this.currentActivity.price <= 0.9) {
-      return 'expensive';
+      return "expensive";
     }
     if (this.currentActivity.price > 0.9) {
-      return 'luxury';
+      return "luxury";
     }
   }
 
+  filterParamsToHttpParams(): Object {
+    let params: Object = {};
+    if (!this.filterParams["participantsFilterDisabled"]) {
+      params["participants"] = this.filterParams["participants"];
+    }
+    if (
+      this.filterParams["price"]["lower"] > 0 ||
+      this.filterParams["price"]["upper"] < 1
+    ) {
+      params["minprice"] = this.filterParams["price"]["lower"];
+      params["maxprice"] = this.filterParams["price"]["upper"];
+    }
+    if (!this.filterParams["typeFilterDisabled"]) {
+      params["type"] = this.activityTypes[this.filterParams["type"]];
+    }
+    return params;
+  }
+
+  toggleFilterActivity() {
+    this.isFilterActive = !this.isFilterActive;
+  }
 }
