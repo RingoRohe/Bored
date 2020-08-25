@@ -1,8 +1,8 @@
 {
   "name": "bored",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "version": "0.1.0",
+  "author": "Ringo Rohe",
+  "homepage": "https://projects.ringorohe.de/projects/bored/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
