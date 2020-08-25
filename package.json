@@ -1,5 +1,5 @@
 {
-  "name": "Bored",
+  "name": "bored",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -10,7 +10,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "android": "ng build; ionic capacitor copy android; ionic capacitor open android"
+    "android": "ng build; ionic capacitor copy android; ionic capacitor open android",
+    "android-res": "cordova-res android --skip-config --copy"
   },
   "private": true,
   "dependencies": {
